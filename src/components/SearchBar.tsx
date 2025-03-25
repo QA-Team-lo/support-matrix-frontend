@@ -6,10 +6,15 @@ export default function SearchBar({ boards }) {
   const [query, setQuery] = useState("");
 
   const handleSearch = (e) => {
-    const searchQuery = e.target.value.toLowerCase().trim();
-    setQuery(searchQuery);
+    const searchQuery = e.target.value;
+    const cursorPos = e.target.selectionStart;
 
     const cards = document.querySelectorAll(".board-card");
+
+    if (!(cursorPos === searchQuery.length && searchQuery.endsWith(' '))) {
+      searchQuery = searchQuery.toLowerCase().trim();
+      performSearch(searchQuery);
+    }
 
     if (!searchQuery) {
       cards.forEach((card) => {
